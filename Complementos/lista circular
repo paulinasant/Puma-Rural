@@ -1,0 +1,134 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Definición de la estructura Nodo
+struct Nodo {
+    int Num;
+    struct Nodo* siguiente;
+};
+
+// Función para crear un nodo nuevo
+struct Nodo* crearNodo(int Num) {
+    struct Nodo* nuevoNodo = (struct Nodo*)malloc(sizeof(struct Nodo));
+    nuevoNodo->Num = Num;
+    nuevoNodo->siguiente = NULL;
+    return nuevoNodo;
+}
+
+// Función para insertar un elemento al final de la lista
+void insertarFin(struct Nodo** inicio, int Num) {
+    struct Nodo* nuevoNodo = crearNodo(Num);
+    if (*inicio == NULL) {
+        nuevoNodo->siguiente = nuevoNodo; 
+        *inicio = nuevoNodo;
+    } else {
+        struct Nodo* ultimo = (*inicio)->siguiente;
+        while (ultimo->siguiente != *inicio) {
+            ultimo = ultimo->siguiente;
+        }
+        ultimo->siguiente = nuevoNodo;
+        nuevoNodo->siguiente = *inicio;
+    }
+}
+
+// Función para eliminar un elemento de la lista
+void eliminarElemento(struct Nodo** inicio, int Num) {
+    if (*inicio == NULL) {
+        printf("La lista está vacía.\n");
+        return;
+    }
+    struct Nodo* actual = *inicio;
+    struct Nodo* anterior = NULL;
+
+    do {
+        if (actual->Num == Num) {
+            if (anterior != NULL) {
+                anterior->siguiente = actual->siguiente;
+                if (actual == *inicio) {
+                    *inicio = actual->siguiente;
+                }
+                free(actual);
+                printf("Elemento %d eliminado.\n", Num);
+                return;
+            } else {
+                // Si el elemento a eliminar es el primer elemento de la lista
+                struct Nodo* ultimo = *inicio;
+                while (ultimo->siguiente != *inicio) {
+                    ultimo = ultimo->siguiente;
+                }
+                if (ultimo == *inicio) {
+                    // Si la lista tiene solo un elemento
+                    *inicio = NULL;
+                } else {
+                    *inicio = actual->siguiente;
+                    ultimo->siguiente = *inicio;
+                }
+                free(actual);
+                printf("Elemento %d eliminado.\n", Num);
+                return;
+            }
+        }
+        anterior = actual;
+        actual = actual->siguiente;
+    } while (actual != *inicio);
+
+    printf("Elemento %d no encontrado en la lista.\n", Num);
+}
+
+//  mostrar lista circular
+void mostrarLista(struct Nodo* inicio) {
+    struct Nodo* actual = inicio;
+
+    if (inicio == NULL) {
+        printf("La lista está vacía.\n");
+        return;
+    }
+
+    printf("Elementos de la lista circular:\n");
+
+    do {
+        printf("%d ", actual->Num);
+        actual = actual->siguiente;
+    } while (actual != inicio);
+
+    printf("\n");
+}
+
+// Menú
+int main() {
+    struct Nodo* inicio = NULL;
+    int opc, Num;
+
+    do {
+        printf("\n\nMenu\n\n");
+        printf("1. Insertar elemento al final\n");
+        printf("2. Eliminar elemento\n");
+        printf("3. Mostrar lista\n");
+        printf("4. Salir\n");
+        printf("\nSeleccione una opción: \n");
+        scanf("%d", &opc);
+
+        switch (opc) {
+            case 1:
+                printf("Ingrese el elemento a insertar: ");
+                scanf("%d", &Num);
+                insertarFin(&inicio, Num);
+                break;
+            case 2:
+                printf("Ingrese el elemento a eliminar: ");
+                scanf("%d", &Num);
+                eliminarElemento(&inicio, Num);
+                break;
+            case 3:
+                mostrarLista(inicio);
+                break;
+            case 4:
+                printf("Fin del programa.\n");
+                break;
+            default:
+                printf("Opción no válida.\n");
+        }
+    } while (opc != 4);
+
+    return 0;
+}
