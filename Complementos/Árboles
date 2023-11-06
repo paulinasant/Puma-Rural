@@ -1,1 +1,183 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Definición de la estructura del nodo del árbol
+struct Nodo {
+    int dato;
+    struct Nodo* izquierda;
+    struct Nodo* derecha;
+};
+
+// Función para crear un nuevo nodo
+struct Nodo* crearNodo(int dato) {
+    struct Nodo* nuevoNodo = (struct Nodo*)malloc(sizeof(struct Nodo));
+    nuevoNodo->dato = dato;
+    nuevoNodo->izquierda = NULL;
+    nuevoNodo->derecha = NULL;
+    return nuevoNodo;
+}
+
+// Función para insertar un nodo en el árbol
+struct Nodo* insertarNodo(struct Nodo* raiz, int dato) {
+    if (raiz == NULL) {
+        return crearNodo(dato);
+    }
+    
+    if (dato < raiz->dato) {
+        raiz->izquierda = insertarNodo(raiz->izquierda, dato);
+    } else if (dato > raiz->dato) {
+        raiz->derecha = insertarNodo(raiz->derecha, dato);
+    }
+    
+    return raiz;
+}
+
+// Función para encontrar el nodo con el valor mínimo en el árbol
+struct Nodo* encontrarMinimo(struct Nodo* nodo) {
+    while (nodo->izquierda != NULL) {
+        nodo = nodo->izquierda;
+    }
+    return nodo;
+}
+
+// Función para eliminar un nodo del árbol
+struct Nodo* eliminarNodo(struct Nodo* raiz, int dato) {
+    if (raiz == NULL) {
+        return raiz;
+    }
+    
+    if (dato < raiz->dato) {
+        raiz->izquierda = eliminarNodo(raiz->izquierda, dato);
+    } else if (dato > raiz->dato) {
+        raiz->derecha = eliminarNodo(raiz->derecha, dato);
+    } else {
+        // Nodo con el valor a eliminar encontrado
+        
+        // Caso 1: El nodo no tiene hijos o tiene solo un hijo
+        if (raiz->izquierda == NULL) {
+            struct Nodo* temp = raiz->derecha;
+            free(raiz);
+            return temp;
+        } else if (raiz->derecha == NULL) {
+            struct Nodo* temp = raiz->izquierda;
+            free(raiz);
+            return temp;
+        }
+        
+        // Caso 2: El nodo tiene dos hijos, obtenemos el sucesor inorden (nodo mínimo del subárbol derecho)
+        struct Nodo* temp = encontrarMinimo(raiz->derecha);
+        
+        // Copiamos el valor del sucesor al nodo actual
+        raiz->dato = temp->dato;
+        
+        // Eliminamos el sucesor
+        raiz->derecha = eliminarNodo(raiz->derecha, temp->dato);
+    }
+    
+    return raiz;
+}
+
+// Función para buscar un valor en el árbol
+struct Nodo* buscarValor(struct Nodo* raiz, int valor) {
+    if (raiz == NULL || raiz->dato == valor) {
+        return raiz;
+    }
+    
+    if (valor < raiz->dato) {
+        return buscarValor(raiz->izquierda, valor);
+    }
+    
+    return buscarValor(raiz->derecha, valor);
+}
+
+// Función para realizar un recorrido preorden del árbol
+void Preorden(struct Nodo* raiz) {
+    if (raiz != NULL) {
+        printf("%d ", raiz->dato);
+        Preorden(raiz->izquierda);
+        Preorden(raiz->derecha);
+    }
+}
+
+// Función para realizar un recorrido inorden del árbol
+void Inorden(struct Nodo* raiz) {
+    if (raiz != NULL) {
+        Inorden(raiz->izquierda);
+        printf("%d ", raiz->dato);
+        Inorden(raiz->derecha);
+    }
+}
+
+// Función para realizar un recorrido postorden del árbol
+void Postorden(struct Nodo* raiz) {
+    if (raiz != NULL) {
+        Postorden(raiz->izquierda);
+        Postorden(raiz->derecha);
+        printf("%d ", raiz->dato);
+    }
+}
+
+int main() {
+    struct Nodo* raiz = NULL;
+    int opc;
+    int Num;
+
+    do {
+        printf("\n\nMenú\n\n");
+        printf("1. Insertar un nodo\n");
+        printf("2. Eliminar un nodo\n");
+        printf("3. Buscar un valor\n");
+        printf("4. Recorrido preorden\n");
+        printf("5. Recorrido inorden\n");
+        printf("6. Recorrido postorden\n");
+        printf("7. Salir\n");
+        printf("\nIngrese la opción deseada: ");
+        scanf("%d", &opc);
+
+        switch (opc) {
+            case 1:
+                printf("Ingrese el dato a insertar: ");
+                scanf("%d", &Num);
+                raiz = insertarNodo(raiz, Num);
+                break;
+            case 2:
+                printf("Ingrese el dato a eliminar: ");
+                scanf("%d", &Num);
+                raiz = eliminarNodo(raiz, Num);
+                break;
+            case 3:
+                printf("Ingrese el valor a buscar: ");
+                scanf("%d", &Num);
+                struct Nodo* nodoEncontrado = buscarValor(raiz, Num);
+                if (nodoEncontrado != NULL) {
+                    printf("Valor %d encontrado en el árbol.\n", Num);
+                } else {
+                    printf("Valor %d no encontrado en el árbol.\n", Num);
+                }
+                break;
+            case 4:
+                printf("Recorrido preorden: ");
+                Preorden(raiz);
+                printf("\n");
+                break;
+            case 5:
+                printf("Recorrido inorden: ");
+                Inorden(raiz);
+                printf("\n");
+                break;
+            case 6:
+                printf("Recorrido postorden: ");
+                Postorden(raiz);
+                printf("\n");
+                break;
+            case 7:
+                printf("Fin del programa.\n");
+                break;
+            default:
+                printf("Opción no válida.\n");
+        }
+    } while (opc != 7);
+
+    return 0;
+}
 
