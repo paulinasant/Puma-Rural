@@ -1,1 +1,118 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Tamaño máximo de la pila
+#define MAX_SIZE 100
+
+// Definición de la estructura de la pila
+typedef struct {
+    int data[MAX_SIZE];
+    int cima; 
+} Pila; 
+
+// Función para inicializar la pila
+void CrearPila(Pila *pila) { 
+    pila->cima = -1;
+}
+
+// Función para verificar si la pila está vacía
+int PilaVacia(Pila *pila) { 
+    return (pila->cima == -1);
+}
+
+// Función para verificar si la pila está llena
+int PilaLlena(Pila *pila) { 
+    return (pila->cima == MAX_SIZE - 1);
+}
+
+// Función para insertar un elemento en la pila (push)
+void Insertar(Pila *pila, int Num) { 
+    if (PilaLlena(pila)) {
+        printf("La pila está llena.\n");
+    } else {
+        pila->cima++;
+        pila->data[pila->cima] = Num;
+        printf("Elemento %d insertado correctamente.\n", Num);
+    }
+}
+
+// Función para retirar un elemento de la pila (pop)
+void Quitar(Pila *pila) { 
+    if (PilaVacia(pila)) {
+        printf("La pila está vacía.\n");
+    } else {
+        printf("Elemento %d retirado correctamente.\n", pila->data[pila->cima]);
+        pila->cima--;
+    }
+}
+
+// Función para consultar el elemento cima de la pila (Cima)
+int Cima(Pila *pila) { 
+    if (PilaVacia(pila)) {
+        printf("No hay elementos en la pila.\n");
+        return -1; 
+    } else {
+        return pila->data[pila->cima];
+    }
+}
+
+// Función para obtener el tamaño de la pila
+int TamañoPila(Pila *pila) { 
+    return pila->cima + 1;
+}
+
+// Función para limpiar la pila
+void LimpiarPila(Pila *pila) { 
+    pila->cima = -1;
+    printf("La pila ha sido limpiada.\n");
+}
+
+int main() {
+    Pila pila; 
+    CrearPila(&pila);
+
+    int opc, Num;
+
+    while (1) {
+        printf("\n\nMenú de Operaciones\n\n");
+        printf("1. Insertar (push)\n");
+        printf("2. Quitar (pop)\n");
+        printf("3. Consultar cima\n");
+        printf("4. Tamaño de la pila\n");
+        printf("5. Limpiar pila\n");
+        printf("6. Salir\n");
+        printf("\nElija una opción: \n");
+        scanf("%d", &opc);
+
+        switch (opc) {
+            case 1:
+                printf("Ingrese un valor en la pila: ");
+                scanf("%d", &Num);
+                Insertar(&pila, Num);
+                break;
+            case 2:
+                Quitar(&pila);
+                break;
+            case 3:
+                Num = Cima(&pila);
+                if (Num != -1) {
+                    printf("El elemento en la cima de la pila es: %d\n", Num);
+                }
+                break;
+            case 4:
+                printf("Tamaño de la pila: %d\n", TamañoPila(&pila));
+                break;
+            case 5:
+                LimpiarPila(&pila);
+                break;
+            case 6:
+                printf("Fin del programa\n");
+                exit(0);
+            default:
+                printf("Opción no válida.\n");
+        }
+    }
+
+    return 0;
+}
 
