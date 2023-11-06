@@ -1,0 +1,136 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+//Definir una estructura Nodo
+
+typedef struct Nodo{
+    int Num;
+    struct Nodo *anterior;
+    struct Nodo *siguiente;
+} Nodo;
+
+//Función para crear un nuevo nodo
+
+Nodo* crearNodo(int Num){
+    Nodo* nuevoNodo = (Nodo*)malloc(sizeof(Nodo));
+    nuevoNodo->Num = Num;
+    nuevoNodo->anterior = NULL;
+    nuevoNodo->siguiente = NULL;
+    return nuevoNodo;
+}
+
+// Función para insertar un elemento al principio de la lista
+void insertar(Nodo** cabeza, int Num) {
+    Nodo* nuevoNodo = crearNodo(Num);
+    nuevoNodo->siguiente = *cabeza;
+    if (*cabeza != NULL) {
+        (*cabeza)->anterior = nuevoNodo;
+    }
+    *cabeza = nuevoNodo;
+}
+
+// Función para insertar un elemento al final de la lista
+void insertarFinal(Nodo** cabeza, int Num) {
+    Nodo* nuevoNodo = crearNodo(Num);
+    Nodo* Actual = *cabeza;
+    if (Actual == NULL) {
+        *cabeza = nuevoNodo;
+        return;
+    }
+    while (Actual->siguiente != NULL) {
+        Actual = Actual->siguiente;
+    }
+    Actual->siguiente = nuevoNodo;
+    nuevoNodo->anterior = Actual;
+}
+
+// Función para eliminar un elemento de la lista
+void eliminarNodo(Nodo** cabeza, int llave) {
+    Nodo* Actual = *cabeza;
+    
+    while (Actual != NULL) {
+        if (Actual->Num == llave) {
+            if (Actual->anterior != NULL) {
+                Actual->anterior->siguiente = Actual->siguiente;
+            } else {
+                *cabeza = Actual->siguiente;
+            }
+            if (Actual->siguiente != NULL) {
+                Actual->siguiente->anterior = Actual->anterior;
+            }
+            free(Actual);
+            return;
+        }
+        Actual = Actual->siguiente;
+    }
+    
+    printf("El elemento %d no se encontró en la lista.\n", llave);
+}
+
+// Función para mostrar la lista
+void mostrarLista(Nodo* cabeza) {
+    Nodo* Actual = cabeza;
+    while (Actual != NULL) {
+        printf("%d -> ", Actual->Num);
+        Actual = Actual->siguiente;
+    }
+    printf("NULL\n");
+}
+
+// Función para liberar la memoria de la lista
+void liberar(Nodo* cabeza) {
+    Nodo* Actual = cabeza;
+    while (Actual != NULL) {
+        Nodo* siguiente = Actual->siguiente;
+        free(Actual);
+        Actual = siguiente;
+    }
+}
+
+int main(){
+    Nodo*cabeza = NULL;
+    int opc,Num;
+    
+    while(1) {
+        printf("\n\nMenu\n\n");
+        printf("1. Insertar número al principio\n");
+        printf("2. Insertar número al final\n");
+        printf("3. Eliminar númeo\n");
+        printf("4. Mostrar lista\n");
+        printf("5. Salir\n");
+        printf("\nseleccionar opción: ");
+        scanf("%d",&opc);
+        
+        switch(opc) {
+            case 1:
+                printf("Ingresar el número del principio: ");
+                scanf("%d", &Num);
+                insertar(&cabeza, Num);
+                break;
+            case 2:
+                printf("Insertar el número del final: ");
+                scanf("%d", &Num);
+                insertarFinal(&cabeza, Num);
+                break;
+            case 3:
+                printf("Ingrese número que quieres eliminar: ");
+                scanf("%d", &Num);
+                eliminarNodo(&cabeza, Num);
+                break;
+            case 4:
+                printf("Lista actual es:  \n");
+                mostrarLista(cabeza);
+                break;
+            case 5:
+                printf("\nFin del programa\n");
+                liberar(cabeza);
+                exit(0);
+            default:
+                printf("opción no válida. \n");
+        }
+        
+        
+    }
+    
+    return 0;
+}
