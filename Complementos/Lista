@@ -1,1 +1,108 @@
+#include <stdio.h>
+#include <stdlib.h>
 
+// Definir la estructura del nodo
+struct Nodo {
+    int Num;
+    struct Nodo* siguiente;
+};
+
+// Función para crear un nuevo nodo
+struct Nodo* crearNodo(int Num) {
+    struct Nodo* nuevoNodo = (struct Nodo*)malloc(sizeof(struct Nodo));
+    nuevoNodo->Num = Num;
+    nuevoNodo->siguiente = NULL;
+    return nuevoNodo;
+}
+
+// Función para insertar un elemento al principio de la lista
+void insertarAlPrincipio(struct Nodo** cabeza, int Num) {
+    struct Nodo* nuevoNodo = crearNodo(Num);
+    nuevoNodo->siguiente = *cabeza;
+    *cabeza = nuevoNodo;
+}
+
+// Función para eliminar un elemento de la lista
+void eliminar(struct Nodo** cabeza, int Num) {
+    struct Nodo* actual = *cabeza;
+    struct Nodo* anterior = NULL;
+
+    while (actual != NULL && actual->Num != Num) {
+        anterior = actual;
+        actual = actual->siguiente;
+    }
+
+    if (actual == NULL) {
+        printf("El elemento %d eliminado.\n", Num);
+        return;
+    }
+
+    if (anterior == NULL) {
+        *cabeza = actual->siguiente;
+    } else {
+        anterior->siguiente = actual->siguiente;
+    }
+
+    free(actual);
+}
+
+// Función para imprimir la lista
+void imprimirLista(struct Nodo* cabeza) {
+    struct Nodo* actual = cabeza;
+    while (actual != NULL) {
+        printf("%d -> ", actual->Num);
+        actual = actual->siguiente;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    struct Nodo* cabeza = NULL;
+    int opc;
+    int Num;
+
+    // Menú 
+    do {
+        printf("\n\nMENÚ\n\n" );
+        printf("1. Insertar elemento\n");
+        printf("2. Eliminar elemento\n");
+        printf("3. Imprimir lista\n");
+        printf("4. Salir\n");
+        printf("Selecciona una opción: ");
+        scanf("%d", &opc);
+
+        // Switch para seleccionar una opción
+        switch (opc) {
+            case 1:
+                printf("Ingrese un valor: ");
+                scanf("%d", &Num);
+                insertarAlPrincipio(&cabeza, Num);
+                break;
+            case 2:
+                printf("Ingrese el valor que desea eliminar: ");
+                scanf("%d", &Num);
+                eliminar(&cabeza, Num);
+                break;
+            case 3:
+                printf("La lista actual es:");
+                imprimirLista(cabeza);
+                break;
+            case 4:
+                printf("Fin del programa.\n");
+                break;
+            default:
+                printf("Opción no válida.\n");
+                break;
+        }
+        
+    } while (opc != 4);
+
+    // Liberar la memoria
+    while (cabeza != NULL) {
+        struct Nodo* temp = cabeza;
+        cabeza = cabeza->siguiente;
+        free(temp);
+    }
+
+    return 0;
+}
