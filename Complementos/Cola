@@ -1,1 +1,124 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Estructura para un nodo de la cola
+struct Nodo {
+    int Num;
+    struct Nodo* siguiente;
+};
+
+// Estructura para representar una cola
+struct Cola {
+    struct Nodo* frente; 
+    struct Nodo* final; 
+};
+
+// Función para crear una cola vacía
+struct Cola* crearCola() {
+    struct Cola* cola = (struct Cola*)malloc(sizeof(struct Cola));
+    cola->frente = NULL;
+    cola->final = NULL;
+    return cola;
+}
+
+// Función para añadir un elemento a la cola (cola circular)
+void añadirCola(struct Cola* cola, int Num) {
+    struct Nodo* nuevoNodo = (struct Nodo*)malloc(sizeof(struct Nodo));
+    nuevoNodo->Num = Num;
+    nuevoNodo->siguiente = NULL;
+    if (cola->final == NULL) {
+        cola->frente = nuevoNodo;
+        cola->final = nuevoNodo;
+    } else {
+        cola->final->siguiente = nuevoNodo;
+        cola->final = nuevoNodo;
+        cola->final->siguiente = cola->frente; 
+    }
+}
+
+// Función para quitar un elemento de la cola
+int quitarCola(struct Cola* cola) {
+    if (cola->frente == NULL) {
+        printf("La cola está vacía.\n");
+        return -1; 
+    }
+    struct Nodo* temp = cola->frente;
+    int Num = temp->Num;
+    cola->frente = cola->frente->siguiente;
+    if (cola->frente == cola->final) {
+        cola->final = NULL; 
+    } else {
+        cola->final->siguiente = cola->frente; 
+    }
+    free(temp);
+    return Num;
+}
+
+// Función para verificar si la cola está vacía
+int estaVacia(struct Cola* cola) {
+    return cola->frente == NULL;
+}
+
+// Función para mostrar la cola
+void mostrarCola(struct Cola* cola) {
+    if (cola->frente == NULL) {
+        printf("La cola está vacía.\n");
+        return;
+    }
+    struct Nodo* temp = cola->frente;
+    printf("Elementos en la cola: ");
+    do {
+        printf("%d ", temp->Num);
+        temp = temp->siguiente;
+    } while (temp != cola->frente);
+    printf("\n");
+}
+
+int main() {
+    struct Cola* cola = crearCola();
+    int opc, Num;
+
+    while (1) {
+        printf("\n\nMenú\n\n");
+        printf("1. Añadir elemento a la cola\n");
+        printf("2. Quitar elemento de la cola\n");
+        printf("3. Verificar si la cola está vacía\n");
+        printf("4. Mostrar cola\n");
+        printf("5. Salir\n");
+        printf("\nElija una opción: ");
+        scanf("%d", &opc);
+
+        switch (opc) {
+            case 1:
+                printf("Ingrese el Elemento en la cola: ");
+                scanf("%d", &Num);
+                añadirCola(cola, Num);
+                printf("%d añadido a la cola.\n", Num);
+                break;
+            case 2:
+                Num = quitarCola(cola);
+                if (Num != -1) {
+                    printf("Elemento eliminado de la cola: %d\n", Num);
+                }
+                break;
+            case 3:
+                if (estaVacia(cola)) {
+                    printf("La cola está vacía.\n");
+                } else {
+                    printf("La cola no está vacía.\n");
+                }
+                break;
+            case 4:
+                mostrarCola(cola);
+                break;
+            case 5:
+                free(cola);
+                exit(0);
+            default:
+                printf("Opción no válida.\n");
+        }
+    }
+
+    return 0;
+}
 
