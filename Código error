@@ -21,64 +21,7 @@ struct Usuario {
     int edad;
 };
 
-// Lista para almacenar los usuarios
-struct Usuario Usuario[100];  // Se asume un límite máximo de 100 usuarios, puedes ajustarlo según sea necesario
-int numUsuarios = 0;  // Número actual de usuarios en la lista
-
-// Estructura para representar un nodo en el grafo
-struct NodoGrafo {
-    struct Usuario* usuario;
-    struct NodoGrafo* siguiente;
-};
-
-// Función para agregar un nodo al grafo
-void agregarNodoGrafo(struct NodoGrafo** cabeza, struct Usuario* usuario) {
-    struct NodoGrafo* nuevoNodo = (struct NodoGrafo*)malloc(sizeof(struct NodoGrafo));
-    nuevoNodo->usuario = usuario;
-    nuevoNodo->siguiente = *cabeza;
-    *cabeza = nuevoNodo;
-}
-
-	// Función para agregar una conexión entre nodos basada en la edad y la facultad
-	void agregarConexion(struct NodoGrafo* nodo1, struct NodoGrafo* nodo2) {
-		// Lógica para decidir si agregar una conexión
-		if (nodo1->usuario->edad < 25 && nodo2->usuario->edad < 25 && strcmp(nodo1->usuario->facultad, nodo2->usuario->facultad) == 0) {
-			// Agregar conexión
-			printf("Conexión agregada entre %s y %s\n", nodo1->usuario->nombre, nodo2->usuario->nombre);
-		} else {
-			// No hay conexión
-			printf("No se agregó conexión entre %s y %s\n", nodo1->usuario->nombre, nodo2->usuario->nombre);
-		}
-	}
-
-//Estructura de la lista
-struct Nodo {
-    int dato;
-    struct Nodo* siguiente;/*
-@date <11-11-2023>
-@author 
-@Santiago Avila Alexis Iván
-@Santillan Osorio Ada Paulina
-*/
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-// Definición de constantes
-#define MAX_LINE_LENGTH 10024
-#define MAX_FIELDS 10
-
-// Estructura para almacenar la información del usuario
-struct Usuario {
-    char nombre[50];
-    char email[50];
-    char facultad[50];
-    int edad;
-};
-
-// Lista para almacenar los usuarios
-struct Usuario Usuario[100];  // Se asume un límite máximo de 100 usuarios, puedes ajustarlo según sea necesario
+struct Usuario Usuario[100];// Lista para almacenar los usuarios
 int numUsuarios = 0;  // Número actual de usuarios en la lista
 
 // Estructura para representar un nodo en el grafo
@@ -229,9 +172,7 @@ int main(void) {
 		printf("4) Grafo\n");
         printf("5) Terminar\n");
         scanf("%d", &opcion);
-
-					scanf("%d",&opcion);
-   				 	switch(opcion){
+   				 switch(opcion){
             
 
 case 1:
@@ -263,9 +204,7 @@ case 2:
 				scanf("%d",&opcion);
 
                 switch(opcion){
-		
-// si selecciona la opcion 1 le mostrara 3 opciones de los horarios [Matutino, vespertino , nocturno]
-//el usuario seleccionara una opcion de horario: le mostrara el horario que selecciono y el costo 
+ 
 
 case 1:
       printf("\nSeleccionaste:CU a Xochimilco \n"); 
@@ -302,9 +241,7 @@ case 1:
 	return 0;
 }
 					break;
-					
-// si selecciona la opcion 2 le mostrara 2 opciones de los horarios [ vespertino , nocturno]
-//el usuario seleccionara una opcion de horario: le mostrara el horario que selecciono y el costo 
+
 
 case 2:
 			printf("\nSeleccionaste:CU a Deportiva Sta.Cruz \n");
@@ -336,8 +273,6 @@ case 2:
 	return 0;
 }
 
-// si selecciona la opcion 3 le mostrara 2 opciones de los horarios [ vespertino , nocturno]
-//el usuario seleccionara una opcion: le mostrara el horario que selecciono y el costo 
 
 case 3:
 			printf("\nSeleccionaste:CU a Tulyehualco \n");
@@ -370,8 +305,6 @@ case 3:
 	return 0;
 }
 
-// si selecciona la opcion 4 le mostrara 2 opciones de los horarios [ vespertino , nocturno]
-//el usuario seleccionara una opcion: le mostrara el horario que selecciono y el costo 
 
 case 4:
 			printf("\nSeleccionaste:CU a Tlahuac \n");
@@ -404,8 +337,6 @@ case 4:
 	return 0;
 }
 
-// si selecciona la opcion 5 le mostrara 2 opciones de los horarios [ vespertino , nocturno]
-//el usuario seleccionara una opcion: le mostrara el horario que selecciono y el costo 
 
 case 5:
 			printf("\nSeleccionaste:CU a Milpa Alta \n");
@@ -439,8 +370,6 @@ case 5:
   
 }
 
-// si selecciona la opcion 6 le mostrara 2 opciones de los horarios [ vespertino , nocturno]
-//el usuario seleccionara una opcion: le mostrara el horario que selecciono y el costo 
 
 case 6:
 			printf("\nSeleccionaste:CU a Mixquic \n");
@@ -467,9 +396,6 @@ case 6:
 	return 0;
   
 }
-
-// si selecciona la opcion 7 le mostrara 2 opciones de los horarios [ vespertino , nocturno]
-//el usuario seleccionara una opcion: le mostrara el horario que selecciono y el costo 
 
 case 7:
 			printf("\nSeleccionaste:CU A Chalco \n");
@@ -498,8 +424,6 @@ case 7:
   
 }
 
-// si selecciona la opcion 8 le mostrara 2 opciones de los horarios [ vespertino , nocturno]
-//el usuario seleccionara una opcion: le mostrara el horario que selecciono y el costo 
 
 case 8:
 		 printf("\nSeleccionaste:CU a San Pablo \n");
@@ -527,9 +451,6 @@ case 8:
   
 }
 
-// si selecciona la opcion 9 le mostrara 2 opciones de los horarios [ vespertino , nocturno]
-//el usuario seleccionara una opcion: le mostrara el horario que selecciono y el costo 
-
 case 9:
 			printf("\nSeleccionaste:CU a San Bartolo \n");
 				system("clear"); {
@@ -556,8 +477,6 @@ case 9:
 	return 0;
   
 }
-// si selecciona la opcion 10 le mostrara 2 opciones de los horarios [ vespertino , nocturno]
-//el usuario seleccionara una opcion: le mostrara el horario que selecciono y el costo 
 
 case 10:
 		printf("\nSeleccionaste:CU a San Mateo \n");
@@ -643,10 +562,10 @@ case 4:
     break;
 
 case 5:
-                printf("\nGracias Por Usar Puma Foraneo 7u7 \n");
+                printf("\n Gracias Por Usar Puma Foraneo 7u7 \n");
                 break;
 
-            default:
+default:
                 printf("Opcion es erronea \n ");
                 break;
         
@@ -672,8 +591,7 @@ para su optimización.
 
 Horas perdidas: 28 hrs
 Anterior conteo de lineas funcionales: 387
-Ultimo conteo de lineas funcionales: 523 
-
+Ultimo conteo de lineas funcionales: 523
 */
 
 
