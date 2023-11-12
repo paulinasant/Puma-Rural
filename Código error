@@ -19,7 +19,6 @@ struct Usuario {
     char email[50];
     char facultad[50];
     int edad;
-    struct NodoGrafo* nodoEnGrafo;
 };
 
 // Lista para almacenar los usuarios
@@ -38,9 +37,62 @@ void agregarNodoGrafo(struct NodoGrafo** cabeza, struct Usuario* usuario) {
     nuevoNodo->usuario = usuario;
     nuevoNodo->siguiente = *cabeza;
     *cabeza = nuevoNodo;
-    
-        agregarNodoGrafo(&grafo, &Usuario[numUsuarios]);
-    Usuario[numUsuarios].nodoEnGrafo = grafo;
+}
+
+	// Función para agregar una conexión entre nodos basada en la edad y la facultad
+	void agregarConexion(struct NodoGrafo* nodo1, struct NodoGrafo* nodo2) {
+		// Lógica para decidir si agregar una conexión
+		if (nodo1->usuario->edad < 25 && nodo2->usuario->edad < 25 && strcmp(nodo1->usuario->facultad, nodo2->usuario->facultad) == 0) {
+			// Agregar conexión
+			printf("Conexión agregada entre %s y %s\n", nodo1->usuario->nombre, nodo2->usuario->nombre);
+		} else {
+			// No hay conexión
+			printf("No se agregó conexión entre %s y %s\n", nodo1->usuario->nombre, nodo2->usuario->nombre);
+		}
+	}
+
+//Estructura de la lista
+struct Nodo {
+    int dato;
+    struct Nodo* siguiente;/*
+@date <11-11-2023>
+@author 
+@Santiago Avila Alexis Iván
+@Santillan Osorio Ada Paulina
+*/
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Definición de constantes
+#define MAX_LINE_LENGTH 10024
+#define MAX_FIELDS 10
+
+// Estructura para almacenar la información del usuario
+struct Usuario {
+    char nombre[50];
+    char email[50];
+    char facultad[50];
+    int edad;
+};
+
+// Lista para almacenar los usuarios
+struct Usuario Usuario[100];  // Se asume un límite máximo de 100 usuarios, puedes ajustarlo según sea necesario
+int numUsuarios = 0;  // Número actual de usuarios en la lista
+
+// Estructura para representar un nodo en el grafo
+struct NodoGrafo {
+    struct Usuario* usuario;
+    struct NodoGrafo* siguiente;
+};
+
+// Función para agregar un nodo al grafo
+void agregarNodoGrafo(struct NodoGrafo** cabeza, struct Usuario* usuario) {
+    struct NodoGrafo* nuevoNodo = (struct NodoGrafo*)malloc(sizeof(struct NodoGrafo));
+    nuevoNodo->usuario = usuario;
+    nuevoNodo->siguiente = *cabeza;
+    *cabeza = nuevoNodo;
 }
 
 	// Función para agregar una conexión entre nodos basada en la edad y la facultad
@@ -560,16 +612,35 @@ case 3:
 
 case 4:
 
-void imprimirGrafo(struct NodoGrafo* cabeza) {
-    struct NodoGrafo* actual = cabeza;
-    while (actual != NULL) {
-        // Obtener la información del usuario desde el nodo en el grafo
-        struct Usuario* usuario = actual->usuario;
+ printf("\nSeleccionaste: Consultar Grafo\n");
 
-        printf("Usuario: %s, Edad: %d, Facultad: %s\n", usuario->nombre, usuario->edad, usuario->facultad);
-        actual = actual->siguiente;
+    // Construir el grafo utilizando la información de los usuarios
+    for (int i = 0; i < numUsuarios; ++i) {
+        agregarNodoGrafo(&grafo, &Usuario[i]);
     }
-}
+
+    // Agregar conexiones en el grafo basadas en la edad y la facultad
+    for (struct NodoGrafo* nodo1 = grafo; nodo1 != NULL; nodo1 = nodo1->siguiente) {
+        for (struct NodoGrafo* nodo2 = nodo1->siguiente; nodo2 != NULL; nodo2 = nodo2->siguiente) {
+            agregarConexion(nodo1, nodo2);
+        }
+    }
+
+    // Imprimir el grafo
+    printf("\nGrafo de usuarios:\n");
+    struct NodoGrafo* current = grafo;
+    while (current != NULL) {
+        printf("Usuario: %s, Facultad: %s, Edad: %d\n", current->usuario->nombre, current->usuario->facultad, current->usuario->edad);
+        printf("Conexiones:\n");
+        struct NodoGrafo* conexion = current->siguiente;
+        while (conexion != NULL) {
+            printf("  -> %s\n", conexion->usuario->nombre);
+            conexion = conexion->siguiente;
+        }
+        printf("\n");
+        current = current->siguiente;
+    }
+    break;
 
 case 5:
                 printf("\nGracias Por Usar Puma Foraneo 7u7 \n");
@@ -604,4 +675,5 @@ Anterior conteo de lineas funcionales: 387
 Ultimo conteo de lineas funcionales: 523 
 
 */
+
 
