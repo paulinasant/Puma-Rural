@@ -44,6 +44,7 @@ void agregarUsuarioEnLista(char *nombre, char *email, char *facultad, int edad) 
 struct Nodo {
     int dato;
     struct Nodo* siguiente;
+    struct Nodo* anterior;
 };
 
  //Función para consultar usuarios en la lista.
@@ -109,8 +110,8 @@ struct Nodo* cabeza = NULL;
 				printf("\nSeleccione su estado");
 				printf("\n 1) Terminar "); //Registra los datos para el archivo cvs
 				printf("\n 2) Registro "); //Dirige al menú principal del pumabus fornaeo
-				printf("\n 4) Iniciar \n"); //Dirige al menú principal del pumabus fornaeo
-                printf("\n 3) Consulta ");
+				printf("\n 4) Iniciar "); //Dirige al menú principal del pumabus fornaeo
+                printf("\n 3) Consulta \n");
 					scanf("%d",&opcion);
    				 	switch(opcion){
      				system("clear");
@@ -502,6 +503,7 @@ case 10:
 	return 0;
 }
 
+}
 
 
 /*
