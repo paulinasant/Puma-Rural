@@ -21,7 +21,8 @@ struct Usuario {
     int edad;
 };
 
-struct Usuario Usuario[100];// Lista para almacenar los usuarios
+// Lista para almacenar los usuarios
+struct Usuario Usuario[100];  // Se asume un límite máximo de 100 usuarios, puedes ajustarlo según sea necesario
 int numUsuarios = 0;  // Número actual de usuarios en la lista
 
 // Estructura para representar un nodo en el grafo
@@ -172,7 +173,9 @@ int main(void) {
 		printf("4) Grafo\n");
         printf("5) Terminar\n");
         scanf("%d", &opcion);
-   				 switch(opcion){
+
+					scanf("%d",&opcion);
+   				 	switch(opcion){
             
 
 case 1:
@@ -562,10 +565,10 @@ case 4:
     break;
 
 case 5:
-                printf("\n Gracias Por Usar Puma Foraneo 7u7 \n");
+                printf("\nGracias Por Usar Puma Foraneo 7u7 \n");
                 break;
 
-default:
+            default:
                 printf("Opcion es erronea \n ");
                 break;
         
@@ -593,5 +596,3 @@ Horas perdidas: 28 hrs
 Anterior conteo de lineas funcionales: 387
 Ultimo conteo de lineas funcionales: 523
 */
-
-
