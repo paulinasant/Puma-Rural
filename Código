@@ -5,6 +5,13 @@
 @Santillan Osorio Ada Paulina
 */
 
+/*
+@date <19-05-2023>
+@author 
+@Santiago Avila Alexis Iván
+@Santillan Osorio Ada Paulina
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -22,13 +29,17 @@ struct Usuario {
 };
 
 // Lista para almacenar los usuarios
-struct Usuario listaUsuarios[100];  // Se asume un límite máximo de 100 usuarios, puedes ajustarlo según sea necesario
+struct Usuario Usuario[100];  // Se asume un límite máximo de 100 usuarios, puedes ajustarlo según sea necesario
 int numUsuarios = 0;  // Número actual de usuarios en la lista
 
-/*
- * Función para agregar un usuario a la lista de usuarios en memoria.
- */
+//Estructura de la lista
+struct Nodo {
+    int dato;
+    struct Nodo* siguiente;
+    struct Nodo* anterior;
+};
 
+//Función para agregar un usuario a la lista de usuarios en memoria.
 void agregarUsuarioEnLista(char *nombre, char *email, char *facultad, int edad) {
     // Verificar si hay espacio disponible en la lista
     if (numUsuarios < 100) {
@@ -40,19 +51,13 @@ void agregarUsuarioEnLista(char *nombre, char *email, char *facultad, int edad) 
         nuevoUsuario.edad = edad;
 
         // Agregar el nuevo usuario a la lista
-        listaUsuarios[numUsuarios] = nuevoUsuario;
+        Usuario[numUsuarios] = nuevoUsuario;
         numUsuarios++;
     } else {
         printf("La lista de usuarios está llena.\n");
     }
 }
 
-//Estructura de la lista
-struct Nodo {
-    int dato;
-    struct Nodo* siguiente;
-    struct Nodo* anterior;
-};
 
  //Función para consultar usuarios en la lista.
 // Función para imprimir la lista de adelante hacia atrás
@@ -88,7 +93,7 @@ void consultarUsuariosEnListaAtras(struct Nodo* cabeza) {
 
 int main(void) {
 
-struct Nodo* cabeza = NULL;
+    struct Nodo* cabeza = NULL;
 
 //varibles globales: horarios y precios
 
@@ -113,70 +118,48 @@ struct Nodo* cabeza = NULL;
   
 //menú para seleccionar registro o iniciar con la consulta de los pumabuses foraneos
 
-				printf("\n¡Bienvenido! a Puma Foraneo\n");
-				printf("\nSeleccione su estado");
-				printf("\n 1) Terminar "); //Registra los datos para el archivo cvs
-				printf("\n 2) Registro "); //Dirige al menú principal del pumabus fornaeo
-				printf("\n 4) Iniciar "); //Dirige al menú principal del pumabus fornaeo
-                printf("\n 3) Consulta \n");
+    do {
+        printf("\n¡Bienvenido a Puma Foraneo!\n");
+        printf("Seleccione una opción:\n");
+        printf("1) Registro\n");
+        printf("2) Inicio\n");
+        printf("3) Consulta\n");
+        printf("4) Terminar\n");
+        scanf("%d", &opcion);
+
 					scanf("%d",&opcion);
    				 	switch(opcion){
-     				system("clear");
             
 
 case 1:
-			printf("\n Gracias Por Usar Puma Foraneo 7u7 \n");
+                printf("\nIntroduce tu nombre de usuario:\n");
+                scanf("%s", nombre);
+
+                printf("\nIntroduce el email del usuario:\n");
+                scanf("%s", email);
+
+                printf("\nIntroduce tu Facultad:\n");
+                scanf("%s", facultad);
+
+                printf("\nIntroduce tu edad:\n");
+                scanf("%d", &edad);
+
+                agregarUsuarioEnLista(nombre, email, facultad, edad);
                 break;
-
-//introducir datos para crear el archivo csv de la informacion del usuario
-case 2:
-  	    printf("\nIntroduce tu nombre de usuario:\n");
-        	scanf("%s", &nombre);
-
-        printf("\nIntroduce el email del usuario:\n");
-       		scanf("%s", &email);
-
-        printf("\nIntroduce tu Facultad:\n");
-       		scanf("%s", &facultad);
-
-				printf("\nIntroduce tu edad:\n");
-       		scanf("%d", &edad);
-
-        agregarUsuarioEnLista(nombre, email, facultad, edad);
-
-case 3:
-        printf("Selecciona una opción: ");
-        scanf("%d", &opcion);
-        switch (opcion) {
-            case 1:
-               consultarUsuariosEnListaAdelante(cabeza);
-                break;
-            case 2:
-                consultarUsuariosEnListaAtras(cabeza);
-                break;
-                
-            default:
-                printf("Opción no válida ingrese un dato diferente, por favor.\n");
-                break;
-        
-    } while (opcion != 2);
-
 
 //menu donde muestra las rutas del pumabus Foraneo
 //Selecciona una opción y lo dirige al usuario a su opcion seleccionada
 //Puede seleccionar el horario que desee consultar.
 //Con la ruta seleccionada podra consultar los siguentes datos: precio, horario que seleccione el usuario
 
-case 4:
+case 2:
 				do{
 			printf("\nMenu Principal\n");  
 			printf("\nSelecciona la ruta\n1)CU a Xochimilco \n2)CU a Deportiva Sta.Cruz \n3)CU a Tulyehualco \n4)CU a Tlahuac \n5)CU a Milpa Alta \n6)CU a Mixquic \n7)CU A Chalco \n8)CU a San Pablo \n9)CU a San Bartolo \n10)CU a San Mateo\n");
 			printf("\nSelecciona una opcion:\n"); 
 				scanf("%d",&opcion);
 
-
                 switch(opcion){
-        	system("clear");
 		
 // si selecciona la opcion 1 le mostrara 3 opciones de los horarios [Matutino, vespertino , nocturno]
 //el usuario seleccionara una opcion de horario: le mostrara el horario que selecciono y el costo 
@@ -499,19 +482,45 @@ case 10:
 	return 0;
   
 }
-
-//opcion invalida
-		default:
-		printf("Opcion es erronea \n ");
-		break;
-		}
-	}while(opcion !=10);
-
-	return 0;
 }
+}while (opcion != 10);
+
+case 3:
+                printf("Selecciona una opción:\n");
+                printf("1) Consulta adelante\n");
+                printf("2) Consulta atrás\n");
+                scanf("%d", &opcion);
+
+                switch (opcion) {
+                    case 1:
+                        consultarUsuariosEnListaAdelante(cabeza);
+                        break;
+
+                    case 2:
+                        consultarUsuariosEnListaAtras(cabeza);
+                        break;
+
+                    default:
+                        printf("Opción no válida, ingrese un dato diferente, por favor.\n");
+                        break;
+                }
+
+                break;
+
+case 4:
+                printf("\nGracias Por Usar Puma Foraneo 7u7 \n");
+                break;
+
+            default:
+                printf("Opcion es erronea \n ");
+                break;
+        
+   				 	}
+    } while (opcion != 4);
+
+    return 0;
 
 }
-
 
 /*
 
@@ -526,8 +535,10 @@ y fracasa, por favor, incremente
 el contador de lineas y las horas perdidas
 para su optimización.
 
-Horas perdidas: 24 hrs
-Ultimo conteo de lineas funcionales: 387
+Horas perdidas: 28 hrs
+Anterior conteo de lineas funcionales: 387
+Ultimo conteo de lineas funcionales: 523 
 
 */
+
 
