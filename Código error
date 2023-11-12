@@ -19,6 +19,7 @@ struct Usuario {
     char email[50];
     char facultad[50];
     int edad;
+    struct NodoGrafo* nodoEnGrafo;
 };
 
 // Lista para almacenar los usuarios
@@ -37,6 +38,9 @@ void agregarNodoGrafo(struct NodoGrafo** cabeza, struct Usuario* usuario) {
     nuevoNodo->usuario = usuario;
     nuevoNodo->siguiente = *cabeza;
     *cabeza = nuevoNodo;
+    
+        agregarNodoGrafo(&grafo, &Usuario[numUsuarios]);
+    Usuario[numUsuarios].nodoEnGrafo = grafo;
 }
 
 	// Función para agregar una conexión entre nodos basada en la edad y la facultad
@@ -556,7 +560,16 @@ case 3:
 
 case 4:
 
+void imprimirGrafo(struct NodoGrafo* cabeza) {
+    struct NodoGrafo* actual = cabeza;
+    while (actual != NULL) {
+        // Obtener la información del usuario desde el nodo en el grafo
+        struct Usuario* usuario = actual->usuario;
 
+        printf("Usuario: %s, Edad: %d, Facultad: %s\n", usuario->nombre, usuario->edad, usuario->facultad);
+        actual = actual->siguiente;
+    }
+}
 
 case 5:
                 printf("\nGracias Por Usar Puma Foraneo 7u7 \n");
