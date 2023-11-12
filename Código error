@@ -58,6 +58,8 @@ struct Nodo {
     struct Nodo* anterior;
 };
 
+struct Nodo* cabeza = NULL;
+
 // Función para agregar un usuario a la lista de usuarios en memoria.
 void agregarUsuarioEnLista(char *nombre, char *email, char *facultad, int edad) {
     // Verificar si hay espacio disponible en la lista
