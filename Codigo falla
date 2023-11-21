@@ -240,6 +240,7 @@ case 1:
                 break;
 
 // Agregar el nuevo usuario a la lista
+    struct Usuario nuevoUsuario;
 Usuario[numUsuarios] = nuevoUsuario;
 numUsuarios++;
 
@@ -390,7 +391,7 @@ case 4:
 		case 2:
 			printf("Costo:$%d\n", globalPrecio_1 );
 			printf("Horarios \n");
-			printf("1)%s \n2)&s \n", globalNocturno[3], globalNocturno[9]);
+			printf("1)%s \n2)%s \n", globalNocturno[3], globalNocturno[9]);
 				break;
       
 		case 3:
