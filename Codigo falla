@@ -175,7 +175,7 @@ void inorden(struct NodoArbol* arbolEdades) {
 int main(void) {
 
 	struct NodoGrafo* grafo = NULL;
-	struct Nodo* cabeza = NULL;
+	struct Nodo* cabezaGrafo = NULL;
 
     // Ejemplo de cómo agregar nodos al grafo
     agregarNodoGrafo(&grafo, &Usuario[0]);
@@ -240,18 +240,9 @@ case 1:
                 break;
 
 // Agregar el nuevo usuario a la lista
-    struct Usuario nuevoUsuario;
-Usuario[numUsuarios] = nuevoUsuario;
+ struct Usuario nuevoUsuarioLocal;
+Usuario[numUsuarios] = nuevoUsuarioLocal;
 numUsuarios++;
-
-// Agregar el nuevo nodo a la lista de nodos
-if (cabeza == NULL) {
-    cabeza = nuevoNodo;
-} else {
-    nuevoNodo->siguiente = cabeza;
-    cabeza->anterior = nuevoNodo;
-    cabeza = nuevoNodo;
-}
 
 // Agregar la edad al árbol
 arbolEdades = insertar(arbolEdades, edad);
